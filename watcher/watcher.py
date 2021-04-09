@@ -19,7 +19,6 @@
 from queue import Queue
 from apscheduler.schedulers.background import BackgroundScheduler
 from profiles.quora import User
-from .update import Update
 from .examiner import Examiner
 
 
