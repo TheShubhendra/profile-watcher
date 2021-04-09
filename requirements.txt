@@ -1,2 +1,2 @@
 apscheduler
-pyprofiles == "0.0.2"
+pyprofiles==0.0.2
