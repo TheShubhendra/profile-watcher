@@ -17,7 +17,7 @@
 #
 # You should have received a copy of the GNU Affero General Public License
 # along with profile-watcher.  If not, see <http://www.gnu.org/licenses/>.
-from .watcher import watcher
+from .watcher import Watcher
 
 
-__all__ = [watcher]
+__all__ = [Watcher]
