@@ -17,14 +17,13 @@
 # You should have received a copy of the GNU Affero General Public License
 # along with profile-watcher.  If not, see <http://www.gnu.org/licenses/>.
 import asyncio
-from queue import Queue
 from quora import User
 from .updaters import Quora
 
 
 class Watcher:
     def __init__(self):
-        self.eventQueue = Queue()
+        self.eventQueue = asyncio.Queue()
         self.updaters = []
 
     def add_quora(self, username):

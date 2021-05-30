@@ -35,10 +35,10 @@ class Quora:
         if self.state is None:
             self.state = profile
         elif not self.state == profile:
-            self._event_builder(self.state, profile)
+            await self._event_builder(self.state, profile)
             self.state = profile
 
-    def _event_builder(self, previousState, currentState):
+    async def _event_builder(self, previousState, currentState):
         if not previousState.followingCount == currentState.followingCount:
             event = FollowingCountChange(
                 self.user,
@@ -46,7 +46,7 @@ class Quora:
                 previousState.followingCount,
                 currentState.followingCount,
             )
-            self.watcher.eventQueue.put(event)
+            await self.watcher.eventQueue.put(event)
 
     async def start(self):
         while True:
