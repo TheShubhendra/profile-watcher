@@ -21,7 +21,7 @@
 
 import asyncio
 from quora import User
-from .events.quors import FollowingCountChange
+from .events.quora import FollowingCountChange
 
 
 class Quora:
