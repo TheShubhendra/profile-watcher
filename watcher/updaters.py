@@ -34,10 +34,10 @@ class Quora:
         if self.state is None:
             self.state = profile
         elif not self.state == profile:
-            self._evaluate_change(self.state, profile)
+            self._event_builder(self.state, profile)
             self.state = profile
 
-    def _evaluate_change(self, previousState, currentState):
+    def _event_builder(self, previousState, currentState):
         if not previousState.followingCount == currentState.followingCount:
             event = FollowingCountChange(
                 user,
