@@ -25,9 +25,10 @@ from .events.quora import FollowingCountChange
 
 
 class Quora:
-    def __init__(self, username):
+    def __init__(self, username, watcher):
         self.state = None
         self.user = User(username)
+        self.watcher = watcher
 
     async def _update(self):
         profile = await self.user.profile()
@@ -40,13 +41,15 @@ class Quora:
     def _event_builder(self, previousState, currentState):
         if not previousState.followingCount == currentState.followingCount:
             event = FollowingCountChange(
-                user,
-                profile,
+                self.user,
+                currentState,
                 previousState.followingCount,
                 currentState.followingCount,
             )
+            self.watcher.eventQueue.put(event)
 
     async def start(self):
         while True:
+            print(self.watcher.eventQueue.qsize())
             await self._update()
             await asyncio.sleep(5)

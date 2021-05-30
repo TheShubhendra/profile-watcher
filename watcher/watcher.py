@@ -24,11 +24,11 @@ from .updaters import Quora
 
 class Watcher:
     def __init__(self):
-        self.updateQueue = Queue()
+        self.eventQueue = Queue()
         self.updaters = []
 
     def add_quora(self, username):
-        updater = Quora(username)
+        updater = Quora(username, self)
         self.updaters.append(updater)
 
     async def start(self):
