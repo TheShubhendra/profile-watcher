@@ -19,22 +19,10 @@
 # along with profile-watcher.  If not, see <http://www.gnu.org/licenses/>.
 
 
-class FollowingCountIncrease:
-    def __init__(self,
-    oldCount,
-    newCount,
-    countChange
-    ):
+class FollowingCountChange:
+    def __init__(self, user, profile, oldCount, newCount):
+        self.user = user
+        self.profile = profile
         self.oldCount = oldCount
         self.newCount = newCount
-        self.countChange = countChange
-
-class FollowingCountDecrease:
-    def __init__(self,
-    oldCount,
-    newCount,
-    countChange
-    ):
-        self.oldCount = oldCount
-        self.newCount = newCount
-        self.countChange = countChange
+        self.countChange = oldCount - newCount
