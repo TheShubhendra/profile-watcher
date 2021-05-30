@@ -9,6 +9,13 @@ class Dispatcher:
     def add_handler(self, event, callback):
         self.handlers.add((event, callback))
 
+    def on(self, event):
+        def decorator(func):
+            self.add_handler(event, func)
+            return func
+
+        return decorator
+
     async def listen(self):
         print("Start listening")
         while True:
