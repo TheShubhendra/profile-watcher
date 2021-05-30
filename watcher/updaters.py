@@ -21,7 +21,10 @@
 
 import asyncio
 from quora import User
-from .events.quora import FollowingCountChange
+from .events.quora import (
+    FollowingCountChange,
+    FollowerCountChange,
+)
 
 
 class Quora:
@@ -45,6 +48,14 @@ class Quora:
                 currentState,
                 previousState.followingCount,
                 currentState.followingCount,
+            )
+            await self.watcher.eventQueue.put(event)
+        if not previousState.followerCount == currentState.followerCount:
+            event = FollowerCountChange(
+                self.user,
+                currentState,
+                previousState.followerCount,
+                currentState.followerCount,
             )
             await self.watcher.eventQueue.put(event)
 
