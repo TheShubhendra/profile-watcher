@@ -16,25 +16,21 @@
 #
 # You should have received a copy of the GNU Affero General Public License
 # along with profile-watcher.  If not, see <http://www.gnu.org/licenses/>.
+import asyncio
 from queue import Queue
-from apscheduler.schedulers.background import BackgroundScheduler
-from profiles.quora import User
-from .examiner import Examiner
+from quora import User
+from .updaters import Quora
 
 
 class Watcher:
     def __init__(self):
-        self.scheduler = BackgroundScheduler()
         self.updateQueue = Queue()
-        self.examiner = Examiner(self)
+        self.updaters = []
 
     def add_quora(self, username):
-        def get_quora(username):
-            user = User(username)
-            self.updateQueue.put(Update("quora", user))
+        updater = Quora(username)
+        self.updaters.append(updater)
 
-        self.scheduler.add_job(get_quora, "interval", seconds=5, args=(username,))
-
-    def start(self):
-        self.scheduler.start()
-        self.examiner.start()
+    async def start(self):
+        for updater in self.updaters:
+            await updater.start()
