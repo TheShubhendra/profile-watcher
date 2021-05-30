@@ -19,17 +19,23 @@
 import asyncio
 from quora import User
 from .updaters import Quora
+from .dispatcher import Dispatcher
+from threading import Thread
 
 
 class Watcher:
     def __init__(self):
         self.eventQueue = asyncio.Queue()
         self.updaters = []
+        self.dispatcher = Dispatcher(self.eventQueue)
 
     def add_quora(self, username):
         updater = Quora(username, self)
         self.updaters.append(updater)
 
     async def start(self):
+        tasks = []
+        tasks.append(asyncio.create_task(self.dispatcher.listen()))
         for updater in self.updaters:
-            await updater.start()
+            tasks.append(asyncio.create_task(updater.start()))
+        [await asyncio.gather(task) for task in tasks]

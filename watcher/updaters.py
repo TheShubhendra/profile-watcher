@@ -50,6 +50,5 @@ class Quora:
 
     async def start(self):
         while True:
-            print(self.watcher.eventQueue.qsize())
             await self._update()
             await asyncio.sleep(5)
