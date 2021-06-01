@@ -29,8 +29,8 @@ from .events.quora import (
 
 
 class Quora:
-    def __init__(self, username, watcher):
-        self.state = None
+    def __init__(self, username, watcher, current_state=None):
+        self.state = current_state
         self.user = User(username)
         self.watcher = watcher
 
