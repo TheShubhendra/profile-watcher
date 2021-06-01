@@ -24,6 +24,7 @@ from quora import User
 from .events.quora import (
     FollowingCountChange,
     FollowerCountChange,
+    AnswerCountChange,
 )
 
 
@@ -52,6 +53,14 @@ class Quora:
             await self.watcher.eventQueue.put(event)
         if not previousState.followerCount == currentState.followerCount:
             event = FollowerCountChange(
+                self.user,
+                currentState,
+                previousState.followerCount,
+                currentState.followerCount,
+            )
+            await self.watcher.eventQueue.put(event)
+        if not previousState.answerCount == currentState.answerCount:
+            event = AnswerCountChange(
                 self.user,
                 currentState,
                 previousState.followerCount,
