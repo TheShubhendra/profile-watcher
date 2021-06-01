@@ -63,8 +63,8 @@ class Quora:
             event = AnswerCountChange(
                 self.user,
                 currentState,
-                previousState.followerCount,
-                currentState.followerCount,
+                previousState.answerCount,
+                currentState.answerCount,
             )
             await self.watcher.eventQueue.put(event)
 
