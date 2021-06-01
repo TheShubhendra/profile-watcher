@@ -29,8 +29,8 @@ class Watcher:
         self.updaters = []
         self.dispatcher = Dispatcher(self.eventQueue)
 
-    def add_quora(self, username, current_state=None):
-        updater = Quora(username, self, current_state)
+    def add_quora(self, username, customState=None, stateInitializer=None):
+        updater = Quora(username, self, customState, stateInitializer)
         self.updaters.append(updater)
 
     async def start(self):

@@ -29,14 +29,17 @@ from .events.quora import (
 
 
 class Quora:
-    def __init__(self, username, watcher, current_state=None):
+    def __init__(self, username, watcher, current_state=None, stateIntializer=None):
         self.state = current_state
         self.user = User(username)
         self.watcher = watcher
+        self.stateIntializer = stateIntializer
 
     async def _update(self):
         profile = await self.user.profile()
         if self.state is None:
+            if self.stateIntializer is not None:
+                profile = self.stateIntializer(profile)
             self.state = profile
         elif not self.state == profile:
             await self._event_builder(self.state, profile)
