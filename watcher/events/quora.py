@@ -35,3 +35,12 @@ class FollowerCountChange:
         self.oldCount = oldCount
         self.newCount = newCount
         self.countChange = oldCount - newCount
+
+
+class AnswerCountChange:
+    def __init__(self, user, profile, oldCount, newCount):
+        self.user = user
+        self.profile = profile
+        self.oldCount = oldCount
+        self.newCount = newCount
+        self.countChange = oldCount - newCount
