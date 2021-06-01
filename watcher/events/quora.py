@@ -25,7 +25,7 @@ class FollowingCountChange:
         self.profile = profile
         self.oldCount = oldCount
         self.newCount = newCount
-        self.countChange = oldCount - newCount
+        self.countChange = newCount - oldCount
 
 
 class FollowerCountChange:
@@ -34,7 +34,7 @@ class FollowerCountChange:
         self.profile = profile
         self.oldCount = oldCount
         self.newCount = newCount
-        self.countChange = oldCount - newCount
+        self.countChange = newCount - oldCount
 
 
 class AnswerCountChange:
@@ -43,4 +43,4 @@ class AnswerCountChange:
         self.profile = profile
         self.oldCount = oldCount
         self.newCount = newCount
-        self.countChange = oldCount - newCount
+        self.countChange = newCount - oldCount
