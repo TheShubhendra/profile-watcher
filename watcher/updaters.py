@@ -35,6 +35,7 @@ class Quora:
         self.user = User(username)
         self.watcher = watcher
         self.stateIntializer = stateIntializer
+        self.logger = self.watcher.logger
 
     async def check(self):
         try:
@@ -45,6 +46,7 @@ class Quora:
         return True
 
     async def _update(self):
+        self.logger.debug(f"Updating quora profile of {self.user.username}")
         profile = await self.user.profile()
         if self.state is None:
             if self.stateIntializer is not None:
@@ -81,9 +83,11 @@ class Quora:
             await self.watcher.eventQueue.put(event)
 
     async def start(self):
+        self.logger.info(f"Going to start updater for username {self.user.username}")
         while True:
+            self.logger.debug("Updater is running")
             try:
                 await self._update()
             except Exception as e:
-                print(e,self.user.username)
+                print(e, self.user.username)
             await asyncio.sleep(5)

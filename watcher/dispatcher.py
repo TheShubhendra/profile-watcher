@@ -2,11 +2,15 @@ import asyncio
 
 
 class Dispatcher:
-    def __init__(self, eventQueue):
+    def __init__(self, eventQueue, logger):
         self.handlers = set()
         self.eventQueue = eventQueue
+        self.logger = logger
 
     def add_handler(self, event, callback):
+        self.logger.info(
+            f"Adding event handler {callback.__name__} for {event.__name__}"
+        )
         self.handlers.add((event, callback))
 
     def remove_handler(self, event, callback):
@@ -20,9 +24,11 @@ class Dispatcher:
         return decorator
 
     async def listen(self):
-        print("Start listening")
+        self.logger.info("Starting dispatcher")
         while True:
+            self.logger.debug("Dispatcher is running")
             if not self.eventQueue.empty():
+                self.logger.info("Got an update")
                 event = await self.eventQueue.get()
                 for _event, callback in self.handlers:
                     if isinstance(event, _event):

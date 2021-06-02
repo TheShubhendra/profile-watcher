@@ -21,22 +21,27 @@ from quora import User
 from .updaters import Quora
 from .dispatcher import Dispatcher
 from threading import Thread
+import logging
 
 
 class Watcher:
     def __init__(self):
         self.eventQueue = asyncio.Queue()
         self.updaters = []
-        self.dispatcher = Dispatcher(self.eventQueue)
+        self.logger = logging.getLogger(__name__)
+        self.dispatcher = Dispatcher(self.eventQueue, self.logger)
 
     def add_quora(self, username, customState=None, stateInitializer=None):
         updater = Quora(username, self, customState, stateInitializer)
+        self.logger.info(f"Adding quora updater for username {username}")
         self.updaters.append(updater)
         return updater
 
     async def start(self):
+        self.logger.info("Going to start watcher")
         tasks = []
         tasks.append(asyncio.create_task(self.dispatcher.listen()))
         for updater in self.updaters:
             tasks.append(asyncio.create_task(updater.start()))
+        self.logger.info("Task created successfully.")
         [await asyncio.gather(task) for task in tasks]
