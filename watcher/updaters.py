@@ -82,5 +82,8 @@ class Quora:
 
     async def start(self):
         while True:
-            await self._update()
+            try:
+                await self._update()
+            except Exception as e:
+                print(e,self.user.username)
             await asyncio.sleep(5)
