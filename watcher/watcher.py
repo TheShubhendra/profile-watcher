@@ -32,6 +32,7 @@ class Watcher:
     def add_quora(self, username, customState=None, stateInitializer=None):
         updater = Quora(username, self, customState, stateInitializer)
         self.updaters.append(updater)
+        return updater
 
     async def start(self):
         tasks = []

@@ -9,6 +9,9 @@ class Dispatcher:
     def add_handler(self, event, callback):
         self.handlers.add((event, callback))
 
+    def remove_handler(self, event, callback):
+        self.handlers.remove((event, callback))
+
     def on(self, event):
         def decorator(func):
             self.add_handler(event, func)

@@ -21,6 +21,7 @@
 
 import asyncio
 from quora import User
+from quora.exceptions import ProfileNotFoundError
 from .events.quora import (
     FollowingCountChange,
     FollowerCountChange,
@@ -34,6 +35,14 @@ class Quora:
         self.user = User(username)
         self.watcher = watcher
         self.stateIntializer = stateIntializer
+
+    async def check(self):
+        try:
+            await self.user.profile()
+        except ProfileNotFoundError as e:
+            print(e, self.user.username)
+            return False
+        return True
 
     async def _update(self):
         profile = await self.user.profile()
