@@ -30,12 +30,13 @@ from .events.quora import (
 
 
 class Quora:
-    def __init__(self, username, watcher, current_state=None, stateIntializer=None):
+    def __init__(self, username, watcher, current_state=None, stateIntializer=None, update_interval=10):
         self.state = current_state
         self.user = User(username)
         self.watcher = watcher
         self.stateIntializer = stateIntializer
         self.logger = self.watcher.logger
+        self.update_interval = update_interval
 
     async def check(self):
         try:
@@ -90,4 +91,4 @@ class Quora:
                 await self._update()
             except Exception as e:
                 print(e, self.user.username)
-            await asyncio.sleep(5)
+            await asyncio.sleep(self.update_interval)

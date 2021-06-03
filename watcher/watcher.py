@@ -31,16 +31,16 @@ class Watcher:
         self.logger = logging.getLogger(__name__)
         self.dispatcher = Dispatcher(self.eventQueue, self.logger)
 
-    def add_quora(self, username, customState=None, stateInitializer=None):
-        updater = Quora(username, self, customState, stateInitializer)
+    def add_quora(self, username, customState=None, stateInitializer=None, update_interval=None):
+        updater = Quora(username, self, customState, stateInitializer, update_interval)
         self.logger.info(f"Adding quora updater for username {username}")
         self.updaters.append(updater)
         return updater
 
-    async def start(self):
+    async def start(self, dispatch_interval=10):
         self.logger.info("Going to start watcher")
         tasks = []
-        tasks.append(asyncio.create_task(self.dispatcher.listen()))
+        tasks.append(asyncio.create_task(self.dispatcher.listen(dispatch_interval)))
         for updater in self.updaters:
             tasks.append(asyncio.create_task(updater.start()))
         self.logger.info("Task created successfully.")

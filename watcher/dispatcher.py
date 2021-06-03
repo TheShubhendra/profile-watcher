@@ -23,7 +23,7 @@ class Dispatcher:
 
         return decorator
 
-    async def listen(self):
+    async def listen(self, dispatch_interval=10):
         self.logger.info("Starting dispatcher")
         while True:
             self.logger.debug("Dispatcher is running")
@@ -34,4 +34,4 @@ class Dispatcher:
                     if isinstance(event, _event):
                         await callback(event)
 
-            await asyncio.sleep(5)
+            await asyncio.sleep(dispatch_interval)
