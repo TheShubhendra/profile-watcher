@@ -45,19 +45,19 @@ class Watcher:
         for updater in self.updaters:
             self.tasks.append(loop.create_task(updater.start()))
         self.logger.info("Updating tasks created successfully.")
-        wait_actions = await asyncio.wait(self.tasks)
-        loop.run_until_complete(wait_actions)
+        await asyncio.wait(self.tasks)
   
     def start(self, dispatch_interval=10):
         try:
             loop = asyncio.get_event_loop()
-            task = loop.create_task(self.run(dispatch_interval=dispatch_interval))
-            loop.run_until_complete(task)
+            loop.create_task(self.run(dispatch_interval=dispatch_interval))
+            loop.run_forever()
         except KeyboardInterrupt:
             self.logger.info("Stopping")
         except Exception as e:
             self.logger.info(e)
-    async def stop(self):
+
+    def stop(self):
         self.logger.info("Going to stop watcher")
         for task in self.tasks:
-            asyncio.remove_task(task)
+            task.cancel()
