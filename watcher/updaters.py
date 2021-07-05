@@ -20,6 +20,7 @@
 
 
 import asyncio
+import logging
 from quora import User
 from quora.exceptions import ProfileNotFoundError
 from .events.quora import (
@@ -35,7 +36,7 @@ class Quora:
         self.user = User(username, session=session)
         self.watcher = watcher
         self.stateIntializer = stateIntializer
-        self.logger = self.watcher.logger
+        self.logger = logging.getLogger(__name__)
         self.update_interval = update_interval
 
     async def check(self):

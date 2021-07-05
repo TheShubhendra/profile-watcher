@@ -1,11 +1,11 @@
 import asyncio
-
+import logging
 
 class Dispatcher:
-    def __init__(self, eventQueue, logger):
+    def __init__(self, eventQueue):
         self.handlers = set()
         self.eventQueue = eventQueue
-        self.logger = logger
+        self.logger = logging.getLogger(__name__)
 
     def add_handler(self, event, callback):
         self.logger.info(

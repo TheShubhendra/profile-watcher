@@ -29,7 +29,7 @@ class Watcher:
         self.eventQueue = asyncio.Queue()
         self.updaters = []
         self.logger = logging.getLogger(__name__)
-        self.dispatcher = Dispatcher(self.eventQueue, self.logger)
+        self.dispatcher = Dispatcher(self.eventQueue)
 
     def add_quora(self, username, customState=None, stateInitializer=None, update_interval=None, session=None):
         updater = Quora(username, self, customState, stateInitializer, update_interval, session=session)
@@ -37,11 +37,27 @@ class Watcher:
         self.updaters.append(updater)
         return updater
 
-    async def start(self, dispatch_interval=10):
+    async def run(self, dispatch_interval=10):
         self.logger.info("Going to start watcher")
-        tasks = []
-        tasks.append(asyncio.create_task(self.dispatcher.listen(dispatch_interval)))
+        loop = asyncio.get_event_loop()
+        self.tasks = []
+        self.tasks.append(loop.create_task(self.dispatcher.listen(dispatch_interval)))
         for updater in self.updaters:
-            tasks.append(asyncio.create_task(updater.start()))
-        self.logger.info("Task created successfully.")
-        [await asyncio.gather(task) for task in tasks]
+            self.tasks.append(loop.create_task(updater.start()))
+        self.logger.info("Updating tasks created successfully.")
+        wait_actions = await asyncio.wait(self.tasks)
+        loop.run_until_complete(wait_actions)
+  
+    def start(self, dispatch_interval=10):
+        try:
+            loop = asyncio.get_event_loop()
+            task = loop.create_task(self.run(dispatch_interval=dispatch_interval))
+            loop.run_until_complete(task)
+        except KeyboardInterrupt:
+            self.logger.info("Stopping")
+        except Exception as e:
+            self.logger.info(e)
+    async def stop(self):
+        self.logger.info("Going to stop watcher")
+        for task in self.tasks:
+            asyncio.remove_task(task)
