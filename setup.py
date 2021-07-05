@@ -16,7 +16,7 @@ def requirements():
 setup(
     name="profile-watcher",
     packages=find_packages(),
-    version="0.0.4",
+    version="1.0.0",
     license="GNU-AGPL",
     description="""Get updates when anything change in any social media profile.""",
     author="Shubhendra Kushwaha",
