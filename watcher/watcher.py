@@ -31,8 +31,22 @@ class Watcher:
         self.logger = logging.getLogger(__name__)
         self.dispatcher = Dispatcher(self.eventQueue)
 
-    def add_quora(self, username, customState=None, stateInitializer=None, update_interval=None, session=None):
-        updater = Quora(username, self, customState, stateInitializer, update_interval, session=session)
+    def add_quora(
+        self,
+        username,
+        customState=None,
+        stateInitializer=None,
+        update_interval=None,
+        session=None,
+    ):
+        updater = Quora(
+            username,
+            self,
+            customState,
+            stateInitializer,
+            update_interval,
+            session=session,
+        )
         self.logger.info(f"Adding quora updater for username {username}")
         self.updaters.append(updater)
         return updater
@@ -46,7 +60,7 @@ class Watcher:
             self.tasks.append(loop.create_task(updater.start()))
         self.logger.info("Updating tasks created successfully.")
         await asyncio.wait(self.tasks)
-  
+
     def start(self, dispatch_interval=10):
         try:
             loop = asyncio.get_event_loop()
