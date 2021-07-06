@@ -19,35 +19,6 @@
 # You should have received a copy of the GNU Affero General Public License
 # along with profile-watcher.  If not, see <http://www.gnu.org/licenses/>.
 
-from .event import WatcherEvent
 
-
-class QuoraEvent(WatcherEvent):
+class WatcherEvent:
     pass
-
-
-class FollowingCountChange(QuoraEvent):
-    def __init__(self, user, profile, oldCount, newCount):
-        self.user = user
-        self.profile = profile
-        self.oldCount = oldCount
-        self.newCount = newCount
-        self.countChange = newCount - oldCount
-
-
-class FollowerCountChange(QuoraEvent):
-    def __init__(self, user, profile, oldCount, newCount):
-        self.user = user
-        self.profile = profile
-        self.oldCount = oldCount
-        self.newCount = newCount
-        self.countChange = newCount - oldCount
-
-
-class AnswerCountChange(QuoraEvent):
-    def __init__(self, user, profile, oldCount, newCount):
-        self.user = user
-        self.profile = profile
-        self.oldCount = oldCount
-        self.newCount = newCount
-        self.countChange = newCount - oldCount
