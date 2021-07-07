@@ -19,12 +19,19 @@
 # You should have received a copy of the GNU Affero General Public License
 # along with profile-watcher.  If not, see <http://www.gnu.org/licenses/>.
 
+import json
 from .event import WatcherEvent
 
-
 class QuoraEvent(WatcherEvent):
-    pass
-
+    def json(self):
+        event = self.__dict__
+        event.pop("user")
+        event.pop("profile")
+        data = dict()
+        data["plateform"] = "quora"
+        data["type"] = self.__class__.__name__
+        data["event"] = event
+        return json.dumps(data)
 
 class FollowingCountChange(QuoraEvent):
     def __init__(self, user, profile, oldCount, newCount):
