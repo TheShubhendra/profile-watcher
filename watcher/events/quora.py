@@ -31,6 +31,7 @@ class QuoraEvent(WatcherEvent):
         data["plateform"] = "quora"
         data["type"] = self.__class__.__name__
         data["event"] = event
+        data["username"] = self.user.username
         return json.dumps(data)
 
 class FollowingCountChange(QuoraEvent):
