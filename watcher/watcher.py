@@ -38,6 +38,7 @@ class Watcher:
         stateInitializer=None,
         update_interval=None,
         session=None,
+        data_dict={},
     ):
         updater = Quora(
             username,
@@ -46,6 +47,7 @@ class Watcher:
             stateInitializer,
             update_interval,
             session=session,
+            data_dict=data_dict,
         )
         self.logger.info(f"Adding quora updater for username {username}")
         self.updaters.append(updater)

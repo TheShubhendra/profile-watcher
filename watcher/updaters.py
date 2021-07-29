@@ -39,6 +39,7 @@ class Quora:
         stateIntializer=None,
         update_interval=10,
         session=None,
+        data_dict={},
     ):
         self.state = current_state
         self.user = User(username, session=session)
@@ -46,6 +47,7 @@ class Quora:
         self.stateIntializer = stateIntializer
         self.logger = logging.getLogger(__name__)
         self.update_interval = update_interval
+        self.data_dict = data_dict
 
     async def check(self):
         try:
@@ -73,6 +75,7 @@ class Quora:
                 currentState,
                 previousState.followingCount,
                 currentState.followingCount,
+                data_dict=self.data_dict,
             )
             await self.watcher.eventQueue.put(event)
         if not previousState.followerCount == currentState.followerCount:
@@ -81,6 +84,7 @@ class Quora:
                 currentState,
                 previousState.followerCount,
                 currentState.followerCount,
+                data_dict=self.data_dict,
             )
             await self.watcher.eventQueue.put(event)
         if not previousState.answerCount == currentState.answerCount:
@@ -89,6 +93,7 @@ class Quora:
                 currentState,
                 previousState.answerCount,
                 currentState.answerCount,
+                data_dict=self.data_dict,
             )
             await self.watcher.eventQueue.put(event)
 

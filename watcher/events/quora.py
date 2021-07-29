@@ -22,6 +22,7 @@
 import json
 from .event import WatcherEvent
 
+
 class QuoraEvent(WatcherEvent):
     def json(self):
         event = self.__dict__.copy()
@@ -34,28 +35,32 @@ class QuoraEvent(WatcherEvent):
         data["username"] = self.user.username
         return json.dumps(data)
 
+
 class FollowingCountChange(QuoraEvent):
-    def __init__(self, user, profile, oldCount, newCount):
+    def __init__(self, user, profile, oldCount, newCount, data_dict={}):
         self.user = user
         self.profile = profile
         self.oldCount = oldCount
         self.newCount = newCount
         self.countChange = newCount - oldCount
+        self.data_dict = data_dict
 
 
 class FollowerCountChange(QuoraEvent):
-    def __init__(self, user, profile, oldCount, newCount):
+    def __init__(self, user, profile, oldCount, newCount, data_dict={}):
         self.user = user
         self.profile = profile
         self.oldCount = oldCount
         self.newCount = newCount
         self.countChange = newCount - oldCount
+        self.data_dict = data_dict
 
 
 class AnswerCountChange(QuoraEvent):
-    def __init__(self, user, profile, oldCount, newCount):
+    def __init__(self, user, profile, oldCount, newCount, data_dict={}):
         self.user = user
         self.profile = profile
         self.oldCount = oldCount
         self.newCount = newCount
         self.countChange = newCount - oldCount
+        self.data_dict = data_dict
