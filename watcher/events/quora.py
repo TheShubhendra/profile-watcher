@@ -24,7 +24,7 @@ from .event import WatcherEvent
 
 class QuoraEvent(WatcherEvent):
     def json(self):
-        event = self.__dict__
+        event = self.__dict__.copy()
         event.pop("user")
         event.pop("profile")
         data = dict()
