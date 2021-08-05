@@ -105,4 +105,5 @@ class Quora:
                 await self._update()
             except Exception as e:
                 print(e, self.user.username)
+            self.logger.debug(f"Suspending updater coroutine for {self.user.username} fot {self.update_interval} seconds")
             await asyncio.sleep(self.update_interval)
